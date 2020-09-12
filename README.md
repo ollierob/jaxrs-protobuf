@@ -4,7 +4,7 @@ Classes to assist serializing and deserializing protobufs with JAX-RS.
 
 ## Proto helpers
 
-To serialize a Java type into a protobuf, simply make sure it implements either the [`WritesProto`](https://github.com/ollierob/jaxrs-protobuf/blob/master/src/main/java/net/ollie/protobuf/WritesProto.java) or `BuildsProto` interface:
+To serialize a Java type into a protobuf, simply make sure it implements either the [`WritesProto`](https://github.com/ollierob/jaxrs-protobuf/blob/master/src/main/java/net/ollie/protobuf/WritesProto.java) or [`BuildsProto`](https://github.com/ollierob/jaxrs-protobuf/blob/master/src/main/java/net/ollie/protobuf/BuildsProto.java) interface:
 
 ```
 interface MyType extends BuildsProto<MyTypeProto> { 
