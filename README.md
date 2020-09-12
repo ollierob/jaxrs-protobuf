@@ -14,6 +14,32 @@ interface MyType extends BuildsProto<MyTypeProto> {
 
 }
 ```
+You may wish to re-use code by returning a builder that subclasses override:
+```
+interface MyType extends BuildsProto<MyTypeProto> { 
+
+  String id();
+
+  @Override
+  default MyTypeProto toProto() {
+    return this.toProtoBuilder().build();
+  }
+  
+  default MyTypeProto.Builder toProtoBuilder() { 
+    return MyTypeProto.Builder.newBuilder().setId(this.id());
+  }
+
+}
+
+class MyClass implements MyType {
+
+  @Override
+  public MyTypeProto.Builder toProtoBuilder() {
+      return MyType.super.toProtoBuilder().setType("myclass");
+  }
+  
+}
+```
 
 ## JAX-RS serialization
 
