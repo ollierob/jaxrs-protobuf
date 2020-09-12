@@ -54,4 +54,4 @@ interface MyResource {
 
 }
 ```
-Note that you may need to install the [providers](https://github.com/ollierob/jaxrs-protobuf/tree/master/src/main/java/net/ollie/protobuf/jaxrs) that do this manually.
+Note that you may need to install the [providers](https://github.com/ollierob/jaxrs-protobuf/tree/master/src/main/java/net/ollie/protobuf/jaxrs) that do this manually. How you do this depends on your JAX-RS implementation - for example, if using [`resteasy-guice`](https://mvnrepository.com/artifact/org.jboss.resteasy/resteasy-guice) then you simply `bind` the providers.
