@@ -43,7 +43,7 @@ class MyClass implements MyType {
 
 ## JAX-RS serialization
 
-Return a type that implements the above and annotate with the protobuf media type:
+Read or write types that implement the above interfaces, and annotate with the protobuf media type:
 
 ```
 interface MyResource {
@@ -51,6 +51,10 @@ interface MyResource {
   @GET
   @Produces(ProtobufMediaType.APPLICATION_PROTOBUF)
   MyType get(@QueryParam("id") String id);
+  
+  @POST
+  @Consumes(ProtobufMediaType.APPLICATION_PROTOBUF)
+  Response post(MyType object);
 
 }
 ```
