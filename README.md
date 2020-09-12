@@ -14,7 +14,7 @@ interface MyType extends BuildsProto<MyTypeProto> {
 
 }
 ```
-You may wish to re-use code by returning a builder that subclasses override:
+If using subclasses that serialize differently, you might want to consider overriding a method that returns a mutable `MessageBuilder`:
 ```
 interface MyType extends BuildsProto<MyTypeProto> { 
 
