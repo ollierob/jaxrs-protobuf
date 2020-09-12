@@ -1,6 +1,6 @@
 # jaxrs-protobuf
 
-Classes to assist reading and writinoutputg protobufs with JAX-RS.
+Classes to assist serializing and deserializing protobufs with JAX-RS.
 
 ## Proto helpers
 
