@@ -2,7 +2,7 @@
 
 Classes to assist reading and writinoutputg protobufs with JAX-RS.
 
-To serialize a Java type into a protobuf, simply make sure it implements the `WritesProto` interface:
+To serialize a Java type into a protobuf, simply make sure it implements the `WritesProto` interface and install the relevant providers:
 
 ```
 interface MyResource {
