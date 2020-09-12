@@ -32,4 +32,11 @@
         </dependency>
     </dependencies>
 
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <url>https://maven.pkg.github.com/ollierob/protobuf-jaxrs</url>
+        </repository>
+    </distributionManagement>
+
 </project>
