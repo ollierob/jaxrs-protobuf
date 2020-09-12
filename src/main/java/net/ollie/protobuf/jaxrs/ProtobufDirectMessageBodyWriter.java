@@ -37,7 +37,7 @@ public class ProtobufDirectMessageBodyWriter implements MessageBodyWriter<Messag
     }
 
     @Override
-    public void writeTo(final Message message, Class<?> aClass, Type type, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, Object> multivaluedMap, OutputStream outputStream) throws IOException, WebApplicationException {
+    public void writeTo(final Message message, final Class<?> aClass, final Type type, final Annotation[] annotations, final MediaType mediaType, final MultivaluedMap<String, Object> multivaluedMap, final OutputStream outputStream) throws IOException {
         message.writeTo(outputStream);
     }
 

@@ -3,7 +3,6 @@ package net.ollie.protobuf.jaxrs;
 import net.ollie.protobuf.WritesProto;
 
 import javax.ws.rs.Produces;
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyWriter;
@@ -23,13 +22,13 @@ import static net.ollie.protobuf.jaxrs.ProtobufMediaType.isProtobufType;
 public class ProtobufCompatibleMessageBodyWriter implements MessageBodyWriter<WritesProto> {
 
     @Override
-    public boolean isWriteable(Class<?> aClass, Type type, Annotation[] annotations, MediaType mediaType) {
+    public boolean isWriteable(final Class<?> aClass, final Type type, final Annotation[] annotations, final MediaType mediaType) {
         return isProtobufType(mediaType)
                 && WritesProto.class.isAssignableFrom(aClass);
     }
 
     @Override
-    public void writeTo(WritesProto writesProto, Class<?> aClass, Type type, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, Object> multivaluedMap, OutputStream outputStream) throws IOException, WebApplicationException {
+    public void writeTo(final WritesProto writesProto, Class<?> aClass, final Type type, final Annotation[] annotations, final MediaType mediaType, final MultivaluedMap<String, Object> multivaluedMap, final OutputStream outputStream) throws IOException {
         writesProto.writeTo(outputStream);
     }
 
