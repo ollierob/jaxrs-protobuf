@@ -12,6 +12,10 @@ import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
+/**
+ * Writes any implementation of {@link BuildsProto} to {@link com.google.protobuf.Message#toString string}.
+ * Mainly used for debugging output.
+ */
 @Provider
 public class ProtobufStringMessageBodyWriter implements MessageBodyWriter<BuildsProto<?>> {
 

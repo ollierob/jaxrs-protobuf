@@ -14,6 +14,9 @@ import java.lang.reflect.Type;
 
 import static net.ollie.protobuf.jaxrs.ProtobufMediaType.isProtobufType;
 
+/**
+ * Writes any implementation of {@link WritesProto}.
+ */
 @Provider
 public class ProtobufCompatibleMessageBodyWriter implements MessageBodyWriter<WritesProto> {
 
