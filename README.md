@@ -4,7 +4,7 @@ Classes to assist reading and writinoutputg protobufs with JAX-RS.
 
 ## Proto helpers
 
-To serialize a Java type into a protobuf, simply make sure it implements either the `WritesProto` or `BuildsProto` interface:
+To serialize a Java type into a protobuf, simply make sure it implements either the [`WritesProto`](https://github.com/ollierob/jaxrs-protobuf/blob/master/src/main/java/net/ollie/protobuf/WritesProto.java) or `BuildsProto` interface:
 
 ```
 interface MyType extends BuildsProto<MyTypeProto> { 
@@ -54,4 +54,4 @@ interface MyResource {
 
 }
 ```
-Note that the providers may need to be installed manually.
+Note that you may need to install the [providers](https://github.com/ollierob/jaxrs-protobuf/tree/master/src/main/java/net/ollie/protobuf/jaxrs) that do this manually.
