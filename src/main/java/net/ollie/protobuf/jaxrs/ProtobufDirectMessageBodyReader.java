@@ -3,6 +3,8 @@ package net.ollie.protobuf.jaxrs;
 import com.google.protobuf.Message;
 
 import javax.annotation.Nonnull;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
@@ -19,11 +21,19 @@ import java.util.Objects;
 import static net.ollie.protobuf.jaxrs.ProtobufMediaType.isProtobufType;
 
 /**
- * Reads any {@link Message} type that has been {@link #register registered}.
+ * Reads any {@link Message} type that has been {@link #register registered}:
+ *
+ * <pre>{@code
+ *  @GET
+ *  @Produces(ProtobufMediaType.APPLICATION_PROTOBUF)
+ *  MyProto read();
+ * }
+ * </pre>
  *
  * @see ProtobufDirectMessageBodyWriter
  */
 @Provider
+@Produces(ProtobufMediaType.APPLICATION_PROTOBUF)
 public class ProtobufDirectMessageBodyReader implements MessageBodyReader<Message> {
 
     private final Map<Class<?>, ParseFunction<? extends Message>> registeredBuilders = new HashMap<>();

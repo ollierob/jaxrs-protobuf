@@ -2,6 +2,7 @@ package net.ollie.protobuf.jaxrs;
 
 import com.google.protobuf.Message;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
@@ -15,11 +16,18 @@ import java.lang.reflect.Type;
 import static net.ollie.protobuf.jaxrs.ProtobufMediaType.isProtobufType;
 
 /**
- * Writes any actual protobuf {@link Message}.
+ * Writes any actual protobuf {@link Message}:
+ * <pre>{@code
+ *  @POST
+ *  @Consumes(ProtobufMediaType.APPLICATION_PROTOBUF)
+ *  Response post(MyProto proto);
+ * }
+ * </pre>
  *
  * @see ProtobufDirectMessageBodyReader
  */
 @Provider
+@Consumes(ProtobufMediaType.APPLICATION_PROTOBUF)
 public class ProtobufDirectMessageBodyWriter implements MessageBodyWriter<Message> {
 
     @Override

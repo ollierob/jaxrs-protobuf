@@ -2,6 +2,7 @@ package net.ollie.protobuf.jaxrs;
 
 import net.ollie.protobuf.BuildsProto;
 
+import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
@@ -17,6 +18,7 @@ import java.lang.reflect.Type;
  * Mainly used for debugging output.
  */
 @Provider
+@Produces(MediaType.TEXT_PLAIN)
 public class ProtobufStringMessageBodyWriter implements MessageBodyWriter<BuildsProto<?>> {
 
     @Override

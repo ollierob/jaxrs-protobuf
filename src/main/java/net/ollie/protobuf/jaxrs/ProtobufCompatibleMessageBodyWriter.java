@@ -2,6 +2,7 @@ package net.ollie.protobuf.jaxrs;
 
 import net.ollie.protobuf.WritesProto;
 
+import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
@@ -18,6 +19,7 @@ import static net.ollie.protobuf.jaxrs.ProtobufMediaType.isProtobufType;
  * Writes any implementation of {@link WritesProto}.
  */
 @Provider
+@Produces(ProtobufMediaType.APPLICATION_PROTOBUF)
 public class ProtobufCompatibleMessageBodyWriter implements MessageBodyWriter<WritesProto> {
 
     @Override
