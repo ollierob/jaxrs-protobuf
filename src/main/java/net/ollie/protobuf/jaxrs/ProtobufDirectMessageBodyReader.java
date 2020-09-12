@@ -31,6 +31,7 @@ import static net.ollie.protobuf.jaxrs.ProtobufMediaType.isProtobufType;
  * </pre>
  *
  * @see ProtobufDirectMessageBodyWriter
+ * @see ProtobufCompatibleMessageBodyReader
  */
 @Provider
 @Produces(ProtobufMediaType.APPLICATION_PROTOBUF)
