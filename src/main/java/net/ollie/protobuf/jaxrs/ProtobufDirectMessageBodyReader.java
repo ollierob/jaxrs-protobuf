@@ -20,9 +20,11 @@ import static net.ollie.protobuf.jaxrs.ProtobufMediaType.isProtobufType;
 
 /**
  * Reads any {@link Message} type that has been {@link #register registered}.
+ *
+ * @see ProtobufDirectMessageBodyWriter
  */
 @Provider
-public class ProtobufMessageBodyReader implements MessageBodyReader<Message> {
+public class ProtobufDirectMessageBodyReader implements MessageBodyReader<Message> {
 
     private final Map<Class<?>, ParseFunction<? extends Message>> registeredBuilders = new HashMap<>();
 

@@ -16,6 +16,8 @@ import static net.ollie.protobuf.jaxrs.ProtobufMediaType.isProtobufType;
 
 /**
  * Writes any actual protobuf {@link Message}.
+ *
+ * @see ProtobufDirectMessageBodyReader
  */
 @Provider
 public class ProtobufDirectMessageBodyWriter implements MessageBodyWriter<Message> {
