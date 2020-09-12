@@ -1,6 +1,6 @@
 # jaxrs-protobuf
 
-Classes to assist serializing and deserializing protobufs with JAX-RS.
+Classes to assist serializing and deserializing [protocol buffers](https://developers.google.com/protocol-buffers) with [JAX-RS](https://en.wikipedia.org/wiki/Jakarta_RESTful_Web_Services).
 
 ## Proto helpers
 
