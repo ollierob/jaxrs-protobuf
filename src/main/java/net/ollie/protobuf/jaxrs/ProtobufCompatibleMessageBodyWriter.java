@@ -23,7 +23,16 @@ import static net.ollie.protobuf.jaxrs.ProtobufMediaType.isProtobufType;
 @Produces(ProtobufMediaType.APPLICATION_PROTOBUF)
 public class ProtobufCompatibleMessageBodyWriter implements MessageBodyWriter<Object> {
 
+    private final boolean writesString;
     private final Map<Class<?>, WriteFunction<?>> writers = new HashMap<>();
+
+    public ProtobufCompatibleMessageBodyWriter() {
+        this(false);
+    }
+
+    public ProtobufCompatibleMessageBodyWriter(final boolean writesString) {
+        this.writesString = writesString;
+    }
 
     public <T> void register(final Class<T> type, final WriteFunction<? super T> toProto) {
         writers.put(type, toProto);
@@ -31,14 +40,20 @@ public class ProtobufCompatibleMessageBodyWriter implements MessageBodyWriter<Ob
 
     @Override
     public boolean isWriteable(final Class<?> type, final Type genericType, final Annotation[] annotations, final MediaType mediaType) {
-        return isProtobufType(mediaType)
+        return (isProtobufType(mediaType) || this.isWriteableString(mediaType))
                 && writers.containsKey(type);
+    }
+
+    private boolean isWriteableString(final MediaType mediaType) {
+        return writesString && MediaType.TEXT_PLAIN_TYPE.isCompatible(mediaType);
     }
 
     @Override
     public void writeTo(final Object object, final Class<?> type, final Type genericType, final Annotation[] annotations, final MediaType mediaType, final MultivaluedMap<String, Object> multivaluedMap, final OutputStream outputStream) throws IOException {
         final WriteFunction writer = writers.get(type);
-        writer.toProto(object).writeTo(outputStream);
+        final var proto = writer.toProto(object);
+        if (this.isWriteableString(mediaType)) outputStream.write(proto.toString().getBytes());
+        else proto.writeTo(outputStream);
     }
 
     public interface WriteFunction<T> {
