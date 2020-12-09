@@ -46,8 +46,8 @@ public class ProtobufCompatibleMessageBodyWriter implements MessageBodyWriter<Ob
         rawWriters.put(type, toProto);
     }
 
-    public <T> void registerCollection(final Class<T> type, final WriteFunction<? super Collection<T>> toCollectionProto) {
-        genericWriters.put(type, toCollectionProto);
+    public <T> void registerCollection(final Class<T> genericType, final WriteFunction<? super Collection<T>> toCollectionProto) {
+        genericWriters.put(genericType, toCollectionProto);
     }
 
     @Override

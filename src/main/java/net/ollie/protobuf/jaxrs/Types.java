@@ -15,7 +15,6 @@ class Types {
         final var type = types[0];
         if (type instanceof Class) return (Class<?>) type;
         if (type instanceof WildcardType) {
-            //TODO
             final var wildcardType = (WildcardType) type;
             if (wildcardType.getLowerBounds().length != 0) return null;
             final var upperBounds = wildcardType.getUpperBounds();
