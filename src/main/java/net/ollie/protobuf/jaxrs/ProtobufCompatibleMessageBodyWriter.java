@@ -76,7 +76,8 @@ public class ProtobufCompatibleMessageBodyWriter implements MessageBodyWriter<Ob
     @Nonnull
     private WriteFunction getWriter(final Class<?> type, final Type genericType) {
         var writer = rawWriters.get(type);
-        if (writer == null && BuildsProto.class.isAssignableFrom(type)) {
+        if (writer != null) return writer;
+        if (BuildsProto.class.isAssignableFrom(type)) {
             writer = (WriteFunction<BuildsProto>) BuildsProto::toProto;
             rawWriters.putIfAbsent(type, writer);
         }
