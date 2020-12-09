@@ -21,6 +21,9 @@ import static net.ollie.protobuf.jaxrs.ProtobufMediaType.isProtobufType;
 
 /**
  * Writes any object type that has been {@link #register registered}.
+ * <p>
+ * Note that some JAXRS implementations will ignore duplicate instances of this class.
+ * You should consider registering subclasses of this class.
  */
 @Provider
 @Produces(ProtobufMediaType.APPLICATION_PROTOBUF)
