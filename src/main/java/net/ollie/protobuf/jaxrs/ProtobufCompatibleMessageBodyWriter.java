@@ -13,9 +13,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static net.ollie.protobuf.jaxrs.ProtobufMediaType.isProtobufType;
 
@@ -30,7 +31,8 @@ import static net.ollie.protobuf.jaxrs.ProtobufMediaType.isProtobufType;
 public class ProtobufCompatibleMessageBodyWriter implements MessageBodyWriter<Object> {
 
     private final boolean writesString;
-    private final Map<Class<?>, WriteFunction<?>> writers = new HashMap<>();
+    private final Map<Class<?>, WriteFunction<?>> rawWriters = new ConcurrentHashMap<>();
+    private final Map<Class<?>, WriteFunction<?>> genericWriters = new ConcurrentHashMap<>();
 
     public ProtobufCompatibleMessageBodyWriter() {
         this(false);
@@ -41,13 +43,22 @@ public class ProtobufCompatibleMessageBodyWriter implements MessageBodyWriter<Ob
     }
 
     public <T> void register(final Class<T> type, final WriteFunction<? super T> toProto) {
-        writers.put(type, toProto);
+        rawWriters.put(type, toProto);
+    }
+
+    public <T> void registerCollection(final Class<T> type, final WriteFunction<? super Collection<T>> toCollectionProto) {
+        genericWriters.put(type, toCollectionProto);
     }
 
     @Override
     public boolean isWriteable(final Class<?> type, final Type genericType, final Annotation[] annotations, final MediaType mediaType) {
         return (isProtobufType(mediaType) || this.isWriteableString(mediaType))
-                && (writers.containsKey(type) || BuildsProto.class.isAssignableFrom(type));
+                && (BuildsProto.class.isAssignableFrom(type) || rawWriters.containsKey(type) || this.isWriteableCollection(type, genericType));
+    }
+
+    private boolean isWriteableCollection(final Class<?> type, final Type genericType) {
+        return Collection.class.isAssignableFrom(type)
+                && genericWriters.containsKey(Types.readGenericTypeClass(genericType));
     }
 
     private boolean isWriteableString(final MediaType mediaType) {
@@ -56,19 +67,20 @@ public class ProtobufCompatibleMessageBodyWriter implements MessageBodyWriter<Ob
 
     @Override
     public void writeTo(final Object object, final Class<?> type, final Type genericType, final Annotation[] annotations, final MediaType mediaType, final MultivaluedMap<String, Object> multivaluedMap, final OutputStream outputStream) throws IOException {
-        final var writer = this.getWriter(type);
+        final var writer = this.getWriter(type, genericType);
         final var proto = writer.toProto(object);
         if (this.isWriteableString(mediaType)) outputStream.write(proto.toString().getBytes());
         else proto.writeTo(outputStream);
     }
 
     @Nonnull
-    private WriteFunction getWriter(final Class<?> type) {
-        var writer = writers.get(type);
+    private WriteFunction getWriter(final Class<?> type, final Type genericType) {
+        var writer = rawWriters.get(type);
         if (writer == null && BuildsProto.class.isAssignableFrom(type)) {
             writer = (WriteFunction<BuildsProto>) BuildsProto::toProto;
-            writers.putIfAbsent(type, writer);
+            rawWriters.putIfAbsent(type, writer);
         }
+        writer = genericWriters.get(Types.readGenericTypeClass(genericType));
         return Objects.requireNonNull(writer);
     }
 
