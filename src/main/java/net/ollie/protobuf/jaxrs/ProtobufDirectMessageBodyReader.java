@@ -3,7 +3,6 @@ package net.ollie.protobuf.jaxrs;
 import com.google.protobuf.Message;
 
 import javax.annotation.Nonnull;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
@@ -51,7 +50,18 @@ public class ProtobufDirectMessageBodyReader implements MessageBodyReader<Messag
     @Override
     public boolean isReadable(final Class<?> type, final Type genericType, final Annotation[] annotations, final MediaType mediaType) {
         return isProtobufType(mediaType)
-                && registeredBuilders.containsKey(type);
+                && (registeredBuilders.containsKey(type) || this.createDefaultParser(type));
+    }
+
+    private boolean createDefaultParser(final Class<?> type) {
+        if (!Message.class.isAssignableFrom(type)) return false;
+        try {
+            final var parser = ParseFunction.defaultParser((Class<? extends Message>) type);
+            registeredBuilders.put(type, parser);
+            return true;
+        } catch (final NoSuchMethodException e) {
+            return false;
+        }
     }
 
     @Override
@@ -62,6 +72,18 @@ public class ProtobufDirectMessageBodyReader implements MessageBodyReader<Messag
     public interface ParseFunction<T extends Message> {
 
         T apply(InputStream from) throws IOException;
+
+        static <T extends Message> ParseFunction<T> defaultParser(final Class<T> type) throws NoSuchMethodException {
+            final var method = type.getMethod("parseFrom", InputStream.class);
+            return i -> {
+                try {
+                    //noinspection unchecked
+                    return (T) method.invoke(type, i);
+                } catch (final ReflectiveOperationException ex) {
+                    throw new IOException(ex);
+                }
+            };
+        }
 
     }
 

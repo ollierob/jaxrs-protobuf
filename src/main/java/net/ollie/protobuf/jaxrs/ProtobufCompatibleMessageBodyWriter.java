@@ -80,6 +80,7 @@ public class ProtobufCompatibleMessageBodyWriter implements MessageBodyWriter<Ob
         if (BuildsProto.class.isAssignableFrom(type)) {
             writer = (WriteFunction<BuildsProto>) BuildsProto::toProto;
             rawWriters.putIfAbsent(type, writer);
+            return writer;
         }
         writer = genericWriters.get(Types.readGenericTypeClass(genericType));
         return Objects.requireNonNull(writer);
