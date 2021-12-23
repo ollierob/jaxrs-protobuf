@@ -6,7 +6,7 @@
 
     <groupId>net.ollie</groupId>
     <artifactId>protobuf-jaxrs</artifactId>
-    <version>1.0</version>
+    <version>1.0.1</version>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
@@ -23,7 +23,7 @@
         <dependency>
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java</artifactId>
-            <version>3.13.0</version>
+            <version>3.19.1</version>
         </dependency>
         <dependency>
             <groupId>javax.ws.rs</groupId>
