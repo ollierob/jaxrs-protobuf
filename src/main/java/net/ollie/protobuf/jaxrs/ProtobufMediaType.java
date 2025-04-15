@@ -1,6 +1,6 @@
 package net.ollie.protobuf.jaxrs;
 
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MediaType;
 
 public class ProtobufMediaType {
 
